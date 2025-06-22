@@ -1,4 +1,4 @@
-# Redisqueue
+# Redis-Queue
 
 A lightweight Go library to use Redis as a message queue. Supports structured and primitive data types using customizable serialization.
 
@@ -20,7 +20,7 @@ go get github.com/prakashpandey/redisqueue
 Queue Initialization
 
 ```go
-queue := redisqueue.New(redisqueue.Options{
+queue := redisqueue.NewWithOptions(redisqueue.Options{
     RedisAddr: "localhost:6379",
     QueueName: "queue-1",
     Timeout:   3 * time.Second,
