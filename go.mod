@@ -1,4 +1,4 @@
-module github.com/prakashpandey/go-redis-queue
+module github.com/prakashpandey/goredisqueue
 
 go 1.24.2
 

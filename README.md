@@ -12,7 +12,7 @@ A lightweight Go library to use Redis as a message queue. Supports structured an
 ## Install 
 
 ```sh
-go get github.com/prakashpandey/redisqueue
+go get github.com/prakashpandey/goredisqueue
 ```
 
 ## Examples
@@ -20,7 +20,7 @@ go get github.com/prakashpandey/redisqueue
 Queue Initialization
 
 ```go
-queue := redisqueue.NewWithOptions(redisqueue.Options{
+queue := goredisqueue.NewWithOptions(goredisqueue.Options{
     RedisAddr: "localhost:6379",
     QueueName: "queue-1",
     Timeout:   3 * time.Second,
@@ -34,23 +34,23 @@ type Event struct {
     ID string `json:"id"`
 }
 e := Event{ID: "abc123"}
-_ = queue.Enqueue(ctx, redisqueue.NewPayloadFromValue(e))
+_ = queue.Enqueue(ctx, goredisqueue.NewPayloadFromValue(e))
 ```
 
 Dequeue a Struct
 
 ```go
 var out Event
-_ = queue.Dequeue(ctx, redisqueue.NewPayloadFromPtr(&out))
+_ = queue.Dequeue(ctx, goredisqueue.NewPayloadFromPtr(&out))
 ```
 
 Enqueue/Dequeue a String
 
 ```go
-_ = queue.Enqueue(ctx, redisqueue.NewPayloadFromValue("hello"))
+_ = queue.Enqueue(ctx, goredisqueue.NewPayloadFromValue("hello"))
 
 var msg string
-_ = queue.Dequeue(ctx, redisqueue.NewPayloadFromPtr(&msg))
+_ = queue.Dequeue(ctx, goredisqueue.NewPayloadFromPtr(&msg))
 ```
 
 ## Testing 

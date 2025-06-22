@@ -1,4 +1,4 @@
-package redisqueue
+package goredisqueue
 
 import (
 	"encoding/json"
