@@ -8,6 +8,15 @@ import (
 	"github.com/redis/go-redis/v9"
 )
 
+type Queuer interface {
+	Enqueue(ctx context.Context, p Payload) error
+	Dequeue(ctx context.Context, p Payload) error
+}
+
+var (
+	_ Queuer = (*Queue)(nil)
+)
+
 type Queue struct {
 	client  *redis.Client
 	queue   string
