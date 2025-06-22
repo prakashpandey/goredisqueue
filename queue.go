@@ -3,6 +3,7 @@ package goredisqueue
 import (
 	"context"
 	"fmt"
+	"io"
 	"time"
 
 	"github.com/redis/go-redis/v9"
@@ -31,7 +32,7 @@ func New(client *redis.Client, queueName string, timeout time.Duration) *Queue {
 	}
 }
 
-func NewWithOptions(opt Options) *Queue {
+func NewWithOptions(opt Options) (*Queue, io.Closer) {
 	client := redis.NewClient(&redis.Options{
 		Addr:     opt.RedisAddr,
 		Password: opt.RedisPassword,
@@ -41,7 +42,18 @@ func NewWithOptions(opt Options) *Queue {
 		client:  client,
 		queue:   opt.QueueName,
 		timeout: opt.Timeout,
+	}, &closer{client: client}
+}
+
+type closer struct {
+	client *redis.Client
+}
+
+func (c *closer) Close() error {
+	if c.client == nil {
+		return nil // No client to close
 	}
+	return c.client.Close()
 }
 
 func (q *Queue) Enqueue(ctx context.Context, p Payload) error {
